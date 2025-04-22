@@ -89,12 +89,19 @@ static void HandleEdgeCases(struct State* s)
     if(pair->m < 0) pair->m = -pair->m;
     if(pair->n < 0) pair->n = -pair->n;
 
-    if(pair->n == 0 || pair->m == 0)
+    if(pair->n == 0 && pair->m == 0)
     {
         s->kind = DONE;
         s->result = 0;
         return;
     }
+
+    if(pair->n == 0 || pair->m == 0)
+    {
+        s->kind = DONE;
+        s->result = pair->n == 0 ? pair->m : pair->n;
+        return;
+    };
 
     if(pair->m < pair->n)
     {
@@ -148,7 +155,7 @@ static void Test()
 
     struct State s5 = {.kind = PAIR, .pair = {0, 34}};
     Run(&s5);
-    DEBUGGER_EXPECTED(0, 34, 0, s5.result);
+    DEBUGGER_EXPECTED(0, 34, 34, s5.result);
 
     struct State s6 = {.kind = PAIR, .pair = {123456, 789012}};
     Run(&s6);
@@ -160,11 +167,16 @@ static void Test()
 
     struct State s9 = {.kind = PAIR, .pair = {20, 0}};  
     Run(&s9);
-    DEBUGGER_EXPECTED(20, 0, 0, s9.result);
+    DEBUGGER_EXPECTED(20, 0, 20, s9.result);
 
     struct State s10 = {.kind = PAIR, .pair = {0, 0}};
     Run(&s10);
     DEBUGGER_EXPECTED(0, 0, 0, s10.result);
+
+    struct State s11 = {.kind = PAIR, .pair = {5, 1}};
+    Run(&s11);
+    printf("%d", s11.result);
+    DEBUGGER_EXPECTED(5, 1, 1, s11.result);
 }
 
 /**

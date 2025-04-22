@@ -38,8 +38,11 @@ int main()
     result = EuclideanAlgorithm(&(Input){100, 25}, 1);
     DEBUGGER_EXPECTED(100, 25, 25, result);
 
+    result = EuclideanAlgorithm(&(Input){5, 1}, 1);
+    DEBUGGER_EXPECTED(5, 1, 1, result);
+
     result = EuclideanAlgorithm(&(Input){0, 34}, 1);
-    DEBUGGER_EXPECTED(0, 34, 0, result);
+    DEBUGGER_EXPECTED(0, 34, 34, result);
 
     result = EuclideanAlgorithm(&(Input){123456, 789012}, 1);
     DEBUGGER_EXPECTED(123456, 789012, 12, result);
@@ -48,7 +51,7 @@ int main()
     DEBUGGER_EXPECTED(-48, 18, 6, result);
 
     result = EuclideanAlgorithm(&(Input){20, 0}, 1);
-    DEBUGGER_EXPECTED(20, 0, 0, result);
+    DEBUGGER_EXPECTED(20, 0, 20, result);
 
     result = EuclideanAlgorithm(&(Input){0, 0}, 1);
     DEBUGGER_EXPECTED(0, 0, 0, result);
