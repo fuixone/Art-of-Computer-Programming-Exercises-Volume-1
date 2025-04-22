@@ -1,13 +1,8 @@
 // Euclidean Algorithm
 
-#include <stdio.h>
-#include <assert.h>
 #include <stdbool.h>
 
-#define DEBUGGER(a, b, expected, result) do { \
-    printf("Input: %d, %d should equal %d. Equaled: %d\n", (a), (b), (expected), (result)); \
-    assert((expected) == (result)); \
-} while (0)
+#include "debugger.h"
 
 typedef struct Input 
 {
@@ -58,25 +53,28 @@ int EuclideanAlgorithm(struct Input* input, int flag)
 int main()
 {
     int result = EuclideanAlgorithm(&(Input){48, 18}, 1);
-    DEBUGGER(48, 18, 6, result);
+    DEBUGGER_EXPECTED(48, 18, 6, result);
 
     result = EuclideanAlgorithm(&(Input){119, 544}, 1);
-    DEBUGGER(119, 544, 17, result);
+    DEBUGGER_EXPECTED(119, 544, 17, result);
 
     result = EuclideanAlgorithm(&(Input){101, 103}, 1);
-    DEBUGGER(101, 103, 1, result);
+    DEBUGGER_EXPECTED(101, 103, 1, result);
 
     result = EuclideanAlgorithm(&(Input){100, 25}, 1);
-    DEBUGGER(100, 25, 25, result);
+    DEBUGGER_EXPECTED(100, 25, 25, result);
 
     result = EuclideanAlgorithm(&(Input){0, 34}, 1);
-    DEBUGGER(0, 34, 34, result);
+    DEBUGGER_EXPECTED(0, 34, 34, result);
 
     result = EuclideanAlgorithm(&(Input){123456, 789012}, 1);
-    DEBUGGER(123456, 789012, 12, result);
+    DEBUGGER_EXPECTED(123456, 789012, 12, result);
 
     result = EuclideanAlgorithm(&(Input){-48, 18}, 1);
-    DEBUGGER(-48, 18, 6, result);
+    DEBUGGER_EXPECTED(-48, 18, 6, result);
+
+    result = EuclideanAlgorithm(&(Input){0, 0}, 1);
+    DEBUGGER_EXPECTED(0, 0, 0, result);
 
     return 0;
 }
