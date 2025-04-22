@@ -12,9 +12,8 @@
   * E2 -> return n
   * 
   * Case m < n
-  * E1 -> m % n => r < n
-  * E2 ->   (1): m = n
-  *         (2): n = r => n gets reduced since r < n => n_New < n_Old
-  *         (1) ^ (2) => m > n
-  * E1 -> m % n where m > n
+  * E1 -> m % n => r = m
+  * E3 ->   (1) m = n
+  *         (2) n = r But r = m => n = m(the old one)
+  * E3
   */
