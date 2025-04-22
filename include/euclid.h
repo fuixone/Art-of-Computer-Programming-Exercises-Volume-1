@@ -15,8 +15,7 @@ int PreliminaryStep(struct Input* input)
     if(input->m < 0) input->m = -input->m;
     if(input->n < 0) input->n = -input->n;
 
-    if(input->n == 0) return 0;
-    if(input->m == 0) return input->n;
+    if(input->n == 0 || input->m == 0) return 0;
 
     if(input->m < input->n)
     {

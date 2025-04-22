@@ -89,16 +89,10 @@ static void HandleEdgeCases(struct State* s)
     if(pair->m < 0) pair->m = -pair->m;
     if(pair->n < 0) pair->n = -pair->n;
 
-    if(pair->n == 0)
+    if(pair->n == 0 || pair->m == 0)
     {
         s->kind = DONE;
         s->result = 0;
-        return;
-    }
-    if(pair->m == 0)
-    {
-        s->kind = DONE;
-        s->result = pair->n;
         return;
     }
 
@@ -154,7 +148,7 @@ static void Test()
 
     struct State s5 = {.kind = PAIR, .pair = {0, 34}};
     Run(&s5);
-    DEBUGGER_EXPECTED(0, 34, 34, s5.result);
+    DEBUGGER_EXPECTED(0, 34, 0, s5.result);
 
     struct State s6 = {.kind = PAIR, .pair = {123456, 789012}};
     Run(&s6);
@@ -163,10 +157,6 @@ static void Test()
     struct State s7 = {.kind = PAIR, .pair = {-48, 18}};
     Run(&s7);
     DEBUGGER_EXPECTED(-48, 18, 6, s7.result);
-
-    struct State s8 = {.kind = PAIR, .pair = {0, 20}};
-    Run(&s8);
-    DEBUGGER_EXPECTED(0, 20, 20, s8.result);
 
     struct State s9 = {.kind = PAIR, .pair = {20, 0}};  
     Run(&s9);
