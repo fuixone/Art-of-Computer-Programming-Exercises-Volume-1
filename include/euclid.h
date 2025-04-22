@@ -15,10 +15,8 @@ int PreliminaryStep(struct Input* input)
     if(input->m < 0) input->m = -input->m;
     if(input->n < 0) input->n = -input->n;
 
-    if(input->m == 0 && input->n == 0) return 0; 
-
+    if(input->n == 0) return 0;
     if(input->m == 0) return input->n;
-    if(input->n == 0) return input->m;
 
     if(input->m < input->n)
     {
@@ -29,4 +27,5 @@ int PreliminaryStep(struct Input* input)
 
     return -1;
 }
+
 #endif // EUCLID_H

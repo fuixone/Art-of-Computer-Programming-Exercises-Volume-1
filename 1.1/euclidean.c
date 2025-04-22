@@ -47,6 +47,12 @@ int main()
     result = EuclideanAlgorithm(&(Input){-48, 18}, 1);
     DEBUGGER_EXPECTED(-48, 18, 6, result);
 
+    result = EuclideanAlgorithm(&(Input){0, 20}, 1);
+    DEBUGGER_EXPECTED(0, 20, 20, result);
+
+    result = EuclideanAlgorithm(&(Input){20, 0}, 1);
+    DEBUGGER_EXPECTED(20, 0, 0, result);
+
     result = EuclideanAlgorithm(&(Input){0, 0}, 1);
     DEBUGGER_EXPECTED(0, 0, 0, result);
 
