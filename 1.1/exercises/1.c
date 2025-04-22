@@ -47,6 +47,16 @@ void Interchange(Point* p)
     p->d = pA;
 }
 
+// According to the answers
+void ANSWERSInterchange(Point* p)
+{
+    void* pT = p->a;
+    p->a = p->b;
+    p->b = p->c;
+    p->c = p->d;
+    p->d = pT;
+}
+
 int main()
 {
     Point p1 = {(void *)1, (void *)2, (void *)3, (void*)4};
@@ -63,4 +73,9 @@ int main()
     Point p3Original = p3;
     Interchange(&p3);
     DEBUGGER_TRUTHY(IsInterchanged(&p3, &p3Original));
+
+    Point answerP = {(void *)1, (void *)2, (void *)3, (void *)4};
+    Point answerPOriginal = answerP;
+    ANSWERSInterchange(&answerP);
+    DEBUGGER_TRUTHY(IsInterchanged(&answerP, &answerPOriginal));
 }
