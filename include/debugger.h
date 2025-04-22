@@ -10,4 +10,9 @@
     assert((expected) == (result)); \
 } while(0);
 
+#define DEBUGGER_TRUTHY(truth) do { \
+    printf("Result was: %s\n", truth ? "true" : "false"); \
+    assert(truth); \
+} while(0);
+
 #endif // DEBUGGER_H

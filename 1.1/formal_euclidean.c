@@ -1,43 +1,56 @@
 // Formal state-like implementation of Euclidean Algorithm
-
 #include "debugger.h"
+#include "formal_euclidean.h"
 
-typedef struct
-{
-    int n, m;
-} Pair;
+/**
+ * Definitions
+ */
 
-typedef struct
-{
-    int m, n, r;
-    int stage;
-} Quad;
+ static struct Pair
+ {
+     int m, n;
+ } Pair;
+ 
+ static struct Quad
+ {
+     int m, n, r, stage;
+ } Quad;
+ 
+ static enum StateType
+ {
+     PAIR,
+     QUAD,
+     DONE
+ } StateType;
+ 
+ static struct State
+ {
+     enum StateType kind;    
+     union
+     {
+         struct Pair pair;
+         struct Quad quad;
+     };
+     int result;
+ } State;
 
-typedef enum 
-{
-    PAIR,
-    QUAD,
-    DONE
-} StateType;
+static void EuclideanAlgorithm(struct State* s);
+static void HandleEdgeCases(struct State* s);
+static int IsNotDone(struct State* s);
+static void Run(struct State* s);
+int GCD(int a, int b);
 
-typedef struct 
-{
-    StateType kind;
-    union
-    {
-        Pair pair;
-        Quad quad;
-        int result;
-    };
-} State;
+/**
+ * Implementation
+ */
 
-void EuclideanAlgorithm(State* s)
+static void EuclideanAlgorithm(struct State* s)
 {
     switch(s->kind)
     {
         case PAIR:
             s->kind = QUAD;
-            s->quad = (Quad){s->pair.m, s->pair.n, 0, 1};
+            s->quad = (struct Quad){s->pair.m, s->pair.n, 0, 1};
             return;
         case QUAD:
             switch(s->quad.stage)
@@ -69,9 +82,9 @@ void EuclideanAlgorithm(State* s)
     return;
 }
 
-void HandleEdgeCases(State* s)
+static void HandleEdgeCases(struct State* s)
 {
-    Pair* pair = &(s->pair);
+    struct Pair* pair = &(s->pair);
 
     if(pair->m < 0) pair->m = -pair->m;
     if(pair->n < 0) pair->n = -pair->n;
@@ -106,12 +119,12 @@ void HandleEdgeCases(State* s)
     return;
 }
 
-int IsNotDone(State* s)
+static int IsNotDone(struct State* s)
 {
     return s->kind != DONE;
 }
 
-void Run(State* s)
+static void Run(struct State* s)
 {
     HandleEdgeCases(s);
 
@@ -121,39 +134,54 @@ void Run(State* s)
     }
 }
 
-int main()
+int GCD(int a, int b) 
 {
-    State s1 = {.kind = PAIR, .pair = {48, 18}};
+    struct State state = {.kind = PAIR, .pair = {a, b}};
+    Run(&state);
+    return state.result;
+};
+
+static void Test()
+{
+    struct State s1 = {.kind = PAIR, .pair = {48, 18}};
     Run(&s1);
     DEBUGGER_EXPECTED(48, 18, 6, s1.result);
 
-    State s2 = {.kind = PAIR, .pair = {119, 544}};
+    struct State s2 = {.kind = PAIR, .pair = {119, 544}};
     Run(&s2);
     DEBUGGER_EXPECTED(119, 544, 17, s2.result);
 
-    State s3 = {.kind = PAIR, .pair = {101, 103}};
+    struct State s3 = {.kind = PAIR, .pair = {101, 103}};
     Run(&s3);
     DEBUGGER_EXPECTED(101, 103, 1, s3.result);
 
-    State s4 = {.kind = PAIR, .pair = {100, 25}};
+    struct State s4 = {.kind = PAIR, .pair = {100, 25}};
     Run(&s4);
     DEBUGGER_EXPECTED(100, 25, 25, s4.result);
 
-    State s5 = {.kind = PAIR, .pair = {0, 34}};
+    struct State s5 = {.kind = PAIR, .pair = {0, 34}};
     Run(&s5);
     DEBUGGER_EXPECTED(0, 34, 34, s5.result);
 
-    State s6 = {.kind = PAIR, .pair = {123456, 789012}};
+    struct State s6 = {.kind = PAIR, .pair = {123456, 789012}};
     Run(&s6);
     DEBUGGER_EXPECTED(123456, 789012, 12, s6.result);
 
-    State s7 = {.kind = PAIR, .pair = {-48, 18}};
+    struct State s7 = {.kind = PAIR, .pair = {-48, 18}};
     Run(&s7);
     DEBUGGER_EXPECTED(-48, 18, 6, s7.result);
 
-    State s8 = {.kind = PAIR, .pair = {0, 0}};
+    struct State s8 = {.kind = PAIR, .pair = {0, 0}};
     Run(&s8);
     DEBUGGER_EXPECTED(0, 0, 0, s8.result);
-
-    return 0;
 }
+
+/**
+ * Uncomment to run tests
+ */
+
+// int main()
+// {
+//     Test();
+//     return 0;
+// }
