@@ -12,7 +12,15 @@ int IsHalting(State* s, int upperLimit)
 
 void Transition(State* s)
 {
-    s->k+=1;
+    s->k += 1;
+}
+
+void Run(State* s)
+{
+    while(!IsHalting(s, 100))
+    {
+        Transition(s);
+    }
 }
 
 
